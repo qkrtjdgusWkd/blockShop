@@ -1,23 +1,44 @@
 "use client";
-
+import { useState } from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Image } from "antd";
-const navigation = [
-    { name: "제품소개", href: "/intro", current: true },
-    { name: "제품사진", href: "/products", current: false },
-    { name: "시공사례", href: "/example", current: false },
-    { name: "????", href: "/", current: false },
-];
+import { log } from "console";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
 }
 
 export default function Header() {
+    const [currentItem, setCurrentItem] = useState("");
+
+    const navigation = [
+        {
+            name: "회사소개",
+            href: "/intro",
+            current: currentItem === "회사소개",
+        },
+        {
+            name: "제품소개",
+            href: "/products",
+            current: currentItem === "제품소개",
+        },
+        // { name: "제품사진", href: "/products", current: false },
+        {
+            name: "시공사례",
+            href: "/example",
+            current: currentItem === "시공사례",
+        },
+    ];
+
+    // const router = useRouter();
+
+    console.log(navigation, currentItem);
     return (
-        <Disclosure as="nav" className="bg-gray-800 h-30">
+        <Disclosure as="nav" className="bg-white-800 h-30 border-b ">
             {({ open }) => (
                 <>
                     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -45,24 +66,33 @@ export default function Header() {
                             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                                 <div className="flex flex-shrink-0 items-center ">
                                     <Image
-                                        style={{ width: "40px" }}
+                                        style={{
+                                            width: "40px",
+                                            display: "flex",
+                                            justifyContent: "start",
+                                            cursor: "pointer",
+                                        }}
                                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                                         alt="Your Company"
+                                        preview={false}
                                         onClick={() => console.log("hihi")}
                                     />
                                 </div>
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex space-x-4">
                                         {navigation.map((item) => (
-                                            <a
+                                            <Link
                                                 key={item.name}
                                                 href={item.href}
                                                 className={classNames(
                                                     item.current
-                                                        ? "bg-gray-900 text-white"
-                                                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                                                    "rounded-md px-3 py-2 text-sm font-medium"
+                                                        ? "bg-gray-700 text-white"
+                                                        : "text-gray-700 hover:bg-gray-700 hover:text-white",
+                                                    "rounded-md px-3 py-2 text-lg font-medium"
                                                 )}
+                                                onClick={() =>
+                                                    setCurrentItem(item.name)
+                                                }
                                                 aria-current={
                                                     item.current
                                                         ? "page"
@@ -70,7 +100,7 @@ export default function Header() {
                                                 }
                                             >
                                                 {item.name}
-                                            </a>
+                                            </Link>
                                         ))}
                                     </div>
                                 </div>
