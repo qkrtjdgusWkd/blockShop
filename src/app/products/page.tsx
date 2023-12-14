@@ -39,7 +39,7 @@ export default function page() {
             <Image
               src="http://hyuu.co.kr/images/company/visual.jpg"
               layout="fill"
-              alt="제품소개22"
+              alt="제품소개22222"
             />
           </div>
         </div>
